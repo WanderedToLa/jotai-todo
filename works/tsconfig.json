@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "index.tsx", "index.tsx", "react-app-env.d.ts"  ]
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import Counter from "./Counter";
 import "./App.css";
+import TodoList from "./Todo";
 
 const App = () => {
   return (
     <div className="App">
-      <Counter />
+      <TodoList />
     </div>
   );
 };
