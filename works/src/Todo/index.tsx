@@ -1,10 +1,5 @@
-import { atom, useAtom } from "jotai";
-import { listofTodoAtom, textInputAtom } from "../Atoms";
-
-const fetchUrlAtom = atom(async () => {
-  const response = await fetch("http://192.168.0.76:8080/todo");
-  return await response.json();
-});
+import { useAtom } from "jotai";
+import { textInputAtom, fetchUrlAtom } from "../Atoms";
 
 const Input = () => {
   const [text, setText] = useAtom(textInputAtom);
@@ -47,6 +42,8 @@ const TodoList = () => {
             <p>{item.title}</p>
             <h1>내용</h1>
             <p>{item.content}</p>
+            <button>test</button>
+            <button>remove</button>
           </div>
         ))}
       </div>
