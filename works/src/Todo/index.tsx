@@ -1,12 +1,45 @@
 import { useAtom } from "jotai";
-import { textInputAtom, fetchUrlAtom } from "../Atoms";
+import { contentInputAtom, fetchUrlAtom, titleInputAtom } from "../Atoms";
 
 const Input = () => {
-  const [text, setText] = useAtom(textInputAtom);
+  const [title, setTitle] = useAtom(titleInputAtom);
+  const [content, setContent] = useAtom(contentInputAtom);
+  // const [setPostId] = useAtom(postID);
+
+  const handleClick = async () => {
+    const response = await fetch("http://192.168.0.76:8080/todo", {
+      method: "POST",
+      body: JSON.stringify({
+        id: "wooseok",
+        title: title,
+        content: content,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    console.log("result is: ", JSON.stringify(result, null, 4));
+  };
+
   return (
     <div>
-      <input value={text} onChange={(e) => setText(e.target.value)} />
-      <div>{text}</div>
+      제목
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <br />
+      내용
+      <input value={content} onChange={(e) => setContent(e.target.value)} />
+      <div>{content}</div>
+      <button type="submit" onClick={handleClick}>
+        submit
+      </button>
     </div>
   );
 };
@@ -24,7 +57,6 @@ const TodoList = () => {
         }}
       >
         <Input />
-        <button type="submit">submit</button>
       </div>
       <div>
         {json.data.map((item: any) => (
