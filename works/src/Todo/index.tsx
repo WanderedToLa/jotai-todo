@@ -1,14 +1,10 @@
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import { listofTodoAtom, textInputAtom } from "../Atoms";
 
-interface todoItemList {
-  id: string;
-  title: string;
-  content: string;
-}
-
-const textInputAtom = atom("");
-const listofTodoAtom = atom<any>({});
+const fetchUrlAtom = atom(async () => {
+  const response = await fetch("http://192.168.0.76:8080/todo");
+  return await response.json();
+});
 
 const Input = () => {
   const [text, setText] = useAtom(textInputAtom);
@@ -21,15 +17,7 @@ const Input = () => {
 };
 
 const TodoList = () => {
-  const [list, setList] = useAtom(listofTodoAtom);
-
-  useEffect(() => {
-    fetch("http://192.168.0.76:8080/todo")
-      .then((res) => res.json())
-      .then(setList);
-  }, [setList]);
-
-  const arr: any = Object.values(list)[1];
+  const [json] = useAtom(fetchUrlAtom);
 
   return (
     <div>
@@ -44,13 +32,23 @@ const TodoList = () => {
         <button type="submit">submit</button>
       </div>
       <div>
-        {/* {arr.map(({ item }: any) => (
-          <div key={item.id}>
-            <div>{item.id}</div>
-            <div>{item.title}</div>
-            <div>{item.content}</div>
+        {json.data.map((item: any) => (
+          <div
+            key={item.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h1>사용자</h1>
+            <p>{item.id}</p>
+            <h1>제목</h1>
+            <p>{item.title}</p>
+            <h1>내용</h1>
+            <p>{item.content}</p>
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );
