@@ -4,10 +4,9 @@ import { contentInputAtom, fetchUrlAtom, titleInputAtom } from "../Atoms";
 const Input = () => {
   const [title, setTitle] = useAtom(titleInputAtom);
   const [content, setContent] = useAtom(contentInputAtom);
-  // const [setPostId] = useAtom(postID);
 
-  const handleClick = async () => {
-    const response = await fetch("http://192.168.0.76:8080/todo", {
+  const handleSubmitClick = async () => {
+    await fetch("http://192.168.0.76:8080/todo", {
       method: "POST",
       body: JSON.stringify({
         id: "wooseok",
@@ -19,14 +18,6 @@ const Input = () => {
         Accept: "application/json",
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`Error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    console.log("result is: ", JSON.stringify(result, null, 4));
   };
 
   return (
@@ -37,7 +28,7 @@ const Input = () => {
       내용
       <input value={content} onChange={(e) => setContent(e.target.value)} />
       <div>{content}</div>
-      <button type="submit" onClick={handleClick}>
+      <button type="submit" onClick={handleSubmitClick}>
         submit
       </button>
     </div>
@@ -46,6 +37,12 @@ const Input = () => {
 
 const TodoList = () => {
   const [json] = useAtom(fetchUrlAtom);
+
+  const handleDeleteClick = async (id: any) => {
+    await fetch(`http://192.168.0.76:8080/todo/${id}`, {
+      method: "DELETE",
+    });
+  };
 
   return (
     <div>
@@ -74,8 +71,14 @@ const TodoList = () => {
             <p>{item.title}</p>
             <h1>내용</h1>
             <p>{item.content}</p>
-            <button>test</button>
-            <button>remove</button>
+            <button>수정하기</button>
+            <button
+              onClick={() => {
+                handleDeleteClick(item.id);
+              }}
+            >
+              remove
+            </button>
           </div>
         ))}
       </div>
