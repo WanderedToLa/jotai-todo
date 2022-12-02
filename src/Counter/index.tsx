@@ -1,4 +1,3 @@
-import React from "react";
 import { atom, useAtom } from "jotai";
 
 const countAtom = atom<number>(0); // 원자 단위 atom
