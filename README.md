@@ -1,2 +1,7 @@
 # jotai-todo
-Atomic state management jotai 
+
+Atomic state management jotai
+
+## Getting Started
+
+- `npm i jotai`
